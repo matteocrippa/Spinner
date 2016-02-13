@@ -13,6 +13,7 @@ public struct SpinnerConfiguration {
     public var backgroundViewConfiguration = BackgroundViewConfiguration()
     public var spinnerViewConfiguration = ContainerViewConfiguration()
     public var indicatorConfiguration = IndicatorConfiguration()
+    public var titleConfiguration = TitleConfiguration()
     
     // MARK: - Animation
     
@@ -45,12 +46,22 @@ public extension SpinnerConfiguration {
         public var shadowOpacity: Float = 0.5
         public var shadowColor = UIColor.blackColor()
         
+        public var insets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        public var preferredWidth: CGFloat = 200
+        
     }
     
     public struct IndicatorConfiguration {
         
         public var indicator: SpinnerIndicator.Type = CircleIndicator.self
         public var size = CGSize(width: 60, height: 60)
+        
+    }
+    
+    public struct TitleConfiguration {
+        
+        public var font = UIFont.systemFontOfSize(14)
+        public var color = UIColor.blackColor()
         
     }
     

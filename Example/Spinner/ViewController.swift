@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import Spinner
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var messageTextField: UITextField!
+    
+    private let spinner = Spinner()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,5 +24,14 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func spin(sender: AnyObject) {
+        view.endEditing(true)
+        if let message = messageTextField.text where message.characters.count > 0 {
+            spinner.showWithTitle(message)
+        } else {
+            spinner.show()
+        }
+    }
+    
 }
 
