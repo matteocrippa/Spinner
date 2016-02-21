@@ -27,9 +27,11 @@ class ViewController: UIViewController {
     @IBAction func spin(sender: AnyObject) {
         view.endEditing(true)
         if let message = messageTextField.text where message.characters.count > 0 {
-            spinner.showWithTitle(message)
+            spinner.titleLabel.text = message
+            spinner.showInView(view)
         } else {
-            spinner.show()
+            spinner.titleLabel.text = nil
+            spinner.showInView(view)
         }
     }
     

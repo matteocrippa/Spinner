@@ -11,7 +11,7 @@ import Foundation
 public struct SpinnerConfiguration {
     
     public var backgroundViewConfiguration = BackgroundViewConfiguration()
-    public var spinnerViewConfiguration = ContainerViewConfiguration()
+    public var containerViewConfiguration = ContainerViewConfiguration()
     public var indicatorConfiguration = IndicatorConfiguration()
     public var titleConfiguration = TitleConfiguration()
     
@@ -47,6 +47,7 @@ public extension SpinnerConfiguration {
         public var shadowColor = UIColor.blackColor()
         
         public var insets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        public var spacing: CGFloat = 20
         public var preferredWidth: CGFloat = 200
         
     }
@@ -54,7 +55,7 @@ public extension SpinnerConfiguration {
     public struct IndicatorConfiguration {
         
         public var indicator: SpinnerIndicator.Type = CircleIndicator.self
-        public var size = CGSize(width: 60, height: 60)
+        public var size = CGSize(width: 50, height: 50)
         
     }
     

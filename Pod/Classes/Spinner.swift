@@ -18,13 +18,14 @@ public class Spinner: UIView {
     
     // MARK: - Properties
     
-    private let configuration: SpinnerConfiguration
     private var constraintsSettedUp = false
     private var animationStartTime: CFTimeInterval?
     
-    private(set) var spinnerContainer: UIView!
-    private(set) var indicator: SpinnerIndicator!
-    private(set) var titleLabel: UILabel!
+    public let configuration: SpinnerConfiguration
+    
+    public private(set) var spinnerContainer: UIView!
+    public private(set) var indicator: SpinnerIndicator!
+    public private(set) var titleLabel: UILabel!
     
     // MARK: - Initialization
     
@@ -56,14 +57,9 @@ public class Spinner: UIView {
     
     private func setupWithConfiguration(configuration: SpinnerConfiguration) {
         setupBackgroundViewWithConfiguration(configuration.backgroundViewConfiguration)
-        setupSpinnerContainerWithConfiguration(configuration.spinnerViewConfiguration)
+        setupSpinnerContainerWithConfiguration(configuration.containerViewConfiguration)
         setupIndicatorWithConfiguration(configuration.indicatorConfiguration)
         setupTitleWithConfiguration(configuration.titleConfiguration)
-        
-        #if !NDEBUG
-            let tapRecognizer = UITapGestureRecognizer(target: self, action: "hide")
-            spinnerContainer.addGestureRecognizer(tapRecognizer)
-        #endif
     }
     
     private func setupBackgroundViewWithConfiguration(configuration:
@@ -128,49 +124,62 @@ public class Spinner: UIView {
             spinnerContainer, attribute: .CenterY, multiplier: 1, constant: 0).active = true
         
         // Spinner container constraints
+        let width = configuration.containerViewConfiguration.preferredWidth
         NSLayoutConstraint(item: spinnerContainer, attribute: .Width, relatedBy: .Equal, toItem:
-            nil, attribute: .NotAnAttribute, multiplier: 1, constant: 200).active = true
+            nil, attribute: .NotAnAttribute, multiplier: 1, constant: width).active = true
         
         // Indicator constraints
-        NSLayoutConstraint(item: indicator.indicatorView, attribute: .Height, relatedBy: .Equal, toItem:
-            nil, attribute: .NotAnAttribute, multiplier: 1, constant: 30).active = true
-        NSLayoutConstraint(item: indicator.indicatorView, attribute: .Width, relatedBy: .Equal, toItem:
-            nil, attribute: .NotAnAttribute, multiplier: 1, constant: 30).active = true
+        let indicatorSize = configuration.indicatorConfiguration.size
+        let indicatorHeight = NSLayoutConstraint(item: indicator.indicatorView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant:
+            indicatorSize.height)
+        indicatorHeight.priority = 900
+        indicatorHeight.active = true
+        
+        let indicatorWidth = NSLayoutConstraint(item: indicator.indicatorView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant:
+            indicatorSize.width)
+        indicatorWidth.priority = 900
+        indicatorWidth.active = true
+        
         NSLayoutConstraint(item: indicator.indicatorView, attribute: .CenterX, relatedBy: .Equal, toItem:
             spinnerContainer, attribute: .CenterX, multiplier: 1, constant: 0).active = true
         
         // Indicator and label constraints
-        let verticalMetrics = ["top": 20, "middle": 20, "bottom": 20]
+        let containerInsets = configuration.containerViewConfiguration.insets
+        let spacing = configuration.containerViewConfiguration.spacing
+        let verticalMetrics = [
+            "top": containerInsets.top, "space": spacing, "bottom": containerInsets.bottom
+        ]
         let verticalViews = ["indicator": indicator.indicatorView, "label": titleLabel]
-        let verticalConstraintsString = "V:|-top-[indicator]-middle-[label]-bottom-|"
+        let verticalConstraintsString = "V:|-top-[indicator]-space-[label]-bottom-|"
         
         let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
             verticalConstraintsString, options: [], metrics: verticalMetrics, views: verticalViews)
         
-        let horizontalMetrics = ["left": 20, "right": 20]
-        let horizontalViews = ["label": titleLabel]
-        let horizontalConstraintsString = "H:|-left-[label]-right-|"
+        let horizontalMetrics = ["left": containerInsets.left, "right": containerInsets.right]
+        let horizontalViews = ["label": titleLabel, "indicator": indicator.indicatorView]
+        let horizontalLabelConstraintsString = "H:|-left-[label]-right-|"
+        let horizontalIndicatorConstraintsString = "H:|->=left-[indicator]->=right-|"
         
-        let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
-            horizontalConstraintsString, options: [], metrics: horizontalMetrics, views:
+        let horizontalLabelConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
+            horizontalLabelConstraintsString, options: [], metrics: horizontalMetrics, views:
+            horizontalViews)
+        let horizontalIndicatorConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
+            horizontalIndicatorConstraintsString, options: [], metrics: horizontalMetrics, views:
             horizontalViews)
         
         NSLayoutConstraint.activateConstraints(verticalConstraints)
-        NSLayoutConstraint.activateConstraints(horizontalConstraints)
+        NSLayoutConstraint.activateConstraints(horizontalLabelConstraints)
+        NSLayoutConstraint.activateConstraints(horizontalIndicatorConstraints)
         
         constraintsSettedUp = true
     }
     
     // MARK: - Visibility
     
-    public func show() {
-        guard let window = UIApplication.sharedApplication().keyWindow else {
-            return
-        }
+    public func showInView(view: UIView) {
+        view.addSubview(self)
         
-        window.addSubview(self)
-        
-        frame = window.bounds
+        frame = view.bounds
         alpha = 1
         
         indicator.indicatorView.alpha = 0
@@ -179,9 +188,9 @@ public class Spinner: UIView {
         animateBackground()
     }
     
-    public func showWithTitle(title: String?) {
+    public func showInView(view: UIView, withTitle title: String) {
         self.titleLabel.text = title
-        show()
+        showInView(view)
     }
     
     func hide(completion: (() -> Void)?) {
@@ -191,16 +200,10 @@ public class Spinner: UIView {
         }
     }
     
-    #if !NDEBUG
-    func hide() {
-        hide(nil)
-    }
-    #endif
-    
     // MARK: - Animation
     
     private func animateSpinnerContainer() {
-        CATransaction.begin()
+//        CATransaction.begin()
         
         let scaleAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
         scaleAnimation.beginTime = CACurrentMediaTime()
@@ -211,14 +214,14 @@ public class Spinner: UIView {
         scaleAnimation.repeatCount = 1
         
         animationStartTime = scaleAnimation.beginTime
-        
-        CATransaction.setCompletionBlock {
-            self.animateSpinnerIndicator()
-        }
+//        
+//        CATransaction.setCompletionBlock {
+//            self.animateSpinnerIndicator()
+//        }
         
         spinnerContainer.layer.addAnimation(scaleAnimation, forKey: "string")
         
-        CATransaction.commit()
+//        CATransaction.commit()
     }
     
     private func animateSpinnerIndicator() {
