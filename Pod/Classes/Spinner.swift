@@ -142,24 +142,21 @@ public class Spinner: UIView {
     
     private func setupContainerConstraints() {
         let width = configuration.containerViewConfiguration.preferredWidth
-        NSLayoutConstraint(item: indicatorContainer, attribute: .Width, relatedBy: .Equal, toItem:
-            nil, attribute: .NotAnAttribute, multiplier: 1, constant: width).active = true
-        NSLayoutConstraint(item: self, attribute: .CenterX, relatedBy: .Equal, toItem:
-            indicatorContainer, attribute: .CenterX, multiplier: 1, constant: 0).active = true
-        NSLayoutConstraint(item: self, attribute: .CenterY, relatedBy: .Equal, toItem:
-            indicatorContainer, attribute: .CenterY, multiplier: 1, constant: 0).active = true
+        indicatorContainer.widthAnchor.constraintEqualToConstant(width).active = true
+        indicatorContainer.centerXAnchor.constraintEqualToAnchor(self.centerXAnchor).active = true
+        indicatorContainer.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor).active = true
         
         // Indicator and label constraints
         let containerInsets = configuration.containerViewConfiguration.insets
         let spacing = configuration.containerViewConfiguration.spacing
         
-        NSLayoutConstraint(item: indicator.indicatorView, attribute: .Top, relatedBy: .Equal, toItem:
-            indicatorContainer, attribute: .Top, multiplier: 1, constant: containerInsets.top).active = true
-        NSLayoutConstraint(item: indicatorContainer, attribute: .Bottom, relatedBy: .Equal, toItem:
-            titleLabel, attribute: .Bottom, multiplier: 1, constant:
+        indicator.indicatorView.topAnchor.constraintEqualToAnchor(indicatorContainer.topAnchor, constant:
+            containerInsets.top).active = true
+        indicatorContainer.bottomAnchor.constraintEqualToAnchor(titleLabel.bottomAnchor, constant:
             containerInsets.bottom).active = true
         
-        let spaceConstraint = NSLayoutConstraint(item: titleLabel, attribute: .Top, relatedBy: .Equal, toItem: indicator.indicatorView, attribute: .Bottom, multiplier: 1, constant: spacing)
+        let spaceConstraint = titleLabel.topAnchor.constraintEqualToAnchor(
+            indicator.indicatorView.bottomAnchor, constant: spacing)
         spaceConstraint.active = true
         indicatorLabelSpaceConstraint = spaceConstraint
         
@@ -180,19 +177,19 @@ public class Spinner: UIView {
     }
     
     private func setupIndicatorConstraints() {
-        let indicatorSize = configuration.indicatorConfiguration.size
-        let indicatorHeight = NSLayoutConstraint(item: indicator.indicatorView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant:
-            indicatorSize.height)
+        let height = configuration.indicatorConfiguration.size.height
+        let width = configuration.indicatorConfiguration.size.width
+        
+        let indicatorHeight = indicator.indicatorView.heightAnchor.constraintEqualToConstant(height)
         indicatorHeight.priority = 900
         indicatorHeight.active = true
         
-        let indicatorWidth = NSLayoutConstraint(item: indicator.indicatorView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant:
-            indicatorSize.width)
+        let indicatorWidth = indicator.indicatorView.widthAnchor.constraintEqualToConstant(width)
         indicatorWidth.priority = 900
         indicatorWidth.active = true
         
-        NSLayoutConstraint(item: indicator.indicatorView, attribute: .CenterX, relatedBy: .Equal, toItem:
-            indicatorContainer, attribute: .CenterX, multiplier: 1, constant: 0).active = true
+        indicator.indicatorView.centerXAnchor.constraintEqualToAnchor(
+            indicatorContainer.centerXAnchor).active = true
     }
     
     // MARK: - Visibility

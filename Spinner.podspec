@@ -21,13 +21,13 @@ If you need to show that the app is thinking now, you can use this spinner
                        DESC
 
   s.homepage         = "https://github.com/devnikor/Spinner"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
+  s.screenshots     = "https://raw.githubusercontent.com/devnikor/Spinner/master/Screenshots/screenshot.png"
   s.license          = 'MIT'
   s.author           = { "Igor Nikitin" => "devnickr@icloud.com" }
   s.source           = { :git => "https://github.com/devnikor/Spinner.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/devnikor'
 
-  s.platform     = :ios, '8.0'
+  s.platform     = :ios, '9.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
