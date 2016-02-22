@@ -18,7 +18,7 @@ public struct SpinnerConfiguration {
     // MARK: - Animation
     
     public var animationDuration = 0.3
-    public var secondaryAnimationDuration = 0.2
+//    public var secondaryAnimationDuration = 0.2
     
     // MARK: - Visibility
     

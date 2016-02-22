@@ -17,6 +17,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "hide"))
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,6 +34,10 @@ class ViewController: UIViewController {
             spinner.titleLabel.text = nil
             spinner.showInView(view)
         }
+    }
+    
+    func hide() {
+        spinner.hide()
     }
     
 }
