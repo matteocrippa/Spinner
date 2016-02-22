@@ -17,7 +17,6 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "hide"))
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,17 +26,13 @@ class ViewController: UIViewController {
 
     @IBAction func spin(sender: AnyObject) {
         view.endEditing(true)
-        if let message = messageTextField.text where message.characters.count > 0 {
-            spinner.titleLabel.text = message
-            spinner.showInView(view)
-        } else {
-            spinner.titleLabel.text = nil
-            spinner.showInView(view)
+        spinner.titleLabel.text = messageTextField.text
+        spinner.showInView(view)
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.spinner.hide()
         }
-    }
-    
-    func hide() {
-        spinner.hide()
     }
     
 }

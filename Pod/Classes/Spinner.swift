@@ -8,8 +8,6 @@
 
 import UIKit
 
-// Currently supports only one device orientation
-// Subscribe to device orientation change notification
 public class Spinner: UIView {
     
     // MARK: - Default Configuration
@@ -269,6 +267,13 @@ public class Spinner: UIView {
                 completion?()
             }
         )
+    }
+    
+    // MARK: - Touches
+    
+    // Currently don't allow touches
+    override public func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        return self
     }
     
 }
