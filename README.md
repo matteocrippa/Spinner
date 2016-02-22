@@ -1,6 +1,6 @@
 # Spinner
 
-[![CI Status](http://img.shields.io/travis/Igor Nikitin/Spinner.svg?style=flat)](https://travis-ci.org/Igor Nikitin/Spinner)
+[![Build Status](https://travis-ci.org/devnikor/Spinner.svg?branch=master)](https://travis-ci.org/devnikor/Spinner)
 [![Version](https://img.shields.io/cocoapods/v/Spinner.svg?style=flat)](http://cocoapods.org/pods/Spinner)
 [![License](https://img.shields.io/cocoapods/l/Spinner.svg?style=flat)](http://cocoapods.org/pods/Spinner)
 [![Platform](https://img.shields.io/cocoapods/p/Spinner.svg?style=flat)](http://cocoapods.org/pods/Spinner)
