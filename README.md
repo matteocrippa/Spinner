@@ -5,7 +5,29 @@
 [![License](https://img.shields.io/cocoapods/l/Spinner.svg?style=flat)](http://cocoapods.org/pods/Spinner)
 [![Platform](https://img.shields.io/cocoapods/p/Spinner.svg?style=flat)](http://cocoapods.org/pods/Spinner)
 
+<img src="Screenshots/screenshot.png" width="300"/>
+
 ## Usage
+
+1. Create instance of `Spinner`:
+
+  `private let spinner = Spinner()`
+  
+2. Show `spinner`:
+
+  `spinner.showInView(view, withTitle: text)`
+  
+3. Hide `spinner` when needed:
+
+  ```swift
+  spinner.hide()
+  
+  // or
+  
+  spinner.hide {
+      // completion
+  }
+  ```
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
