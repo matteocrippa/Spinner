@@ -29,7 +29,7 @@
   }
   ```
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+You can try this pod by using `pod try Spinner`
 
 ## Requirements
 
