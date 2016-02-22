@@ -26,8 +26,7 @@ class ViewController: UIViewController {
 
     @IBAction func spin(sender: AnyObject) {
         view.endEditing(true)
-        spinner.titleLabel.text = messageTextField.text
-        spinner.showInView(view)
+        spinner.showInView(view, withTitle: messageTextField.text)
         
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime, dispatch_get_main_queue()) {

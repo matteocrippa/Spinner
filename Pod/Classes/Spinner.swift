@@ -206,7 +206,7 @@ public class Spinner: UIView {
         indicator.beginAnimation()
     }
     
-    public func showInView(view: UIView, withTitle title: String) {
+    public func showInView(view: UIView, withTitle title: String?) {
         self.titleLabel.text = title
         showInView(view)
     }
