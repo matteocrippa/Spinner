@@ -11,7 +11,7 @@ import UIKit.UIColor
 extension UIColor {
     
     static var mainRedColor: UIColor {
-        return UIColor(red: 208 / 255.0, green: 33 / 255.0, blue: 57 / 255.0, alpha: 1)
+        return UIColor(red: 235 / 255.0, green: 102 / 255.0, blue: 8 / 255.0, alpha: 1)
     }
     
 }
