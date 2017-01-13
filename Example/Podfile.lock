@@ -1,0 +1,16 @@
+PODS:
+  - Spinner (0.1.0)
+
+DEPENDENCIES:
+  - Spinner (from `../`)
+
+EXTERNAL SOURCES:
+  Spinner:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Spinner: f8ebba00064415f561e3474f1cb3aaca5df4e8fa
+
+PODFILE CHECKSUM: 8c730e83fb95878efb5e1bb472e1401629b03751
+
+COCOAPODS: 1.2.0.beta.3

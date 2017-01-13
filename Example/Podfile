@@ -1,11 +1,11 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
-target 'Spinner_Example', :exclusive => true do
+target 'Spinner_Example' do
   pod 'Spinner', :path => '../'
 end
 
-target 'Spinner_Tests', :exclusive => true do
+target 'Spinner_Tests' do
   pod 'Spinner', :path => '../'
 
   

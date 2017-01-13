@@ -1,0 +1,6 @@
+framework module Spinner {
+  umbrella header "Spinner-umbrella.h"
+
+  export *
+  module * { export * }
+}

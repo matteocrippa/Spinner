@@ -34,13 +34,13 @@ public class Spinner: UIView {
     public init(frame: CGRect, configuration: SpinnerConfiguration) {
         self.configuration = configuration
         super.init(frame: frame)
-        setupWithConfiguration(configuration)
+        setupWithConfiguration(configuration: configuration)
     }
     
     required public init?(coder aDecoder: NSCoder) {
         configuration = Spinner.configuration
         super.init(coder: aDecoder)
-        setupWithConfiguration(configuration)
+        setupWithConfiguration(configuration: configuration)
     }
     
     override public convenience init(frame: CGRect) {
@@ -58,10 +58,10 @@ public class Spinner: UIView {
     // MARK: - Setup
     
     private func setupWithConfiguration(configuration: SpinnerConfiguration) {
-        setupBackgroundViewWithConfiguration(configuration.backgroundViewConfiguration)
-        setupIndicatorContainerWithConfiguration(configuration.containerViewConfiguration)
-        setupIndicatorWithConfiguration(configuration.indicatorConfiguration)
-        setupTitleWithConfiguration(configuration.titleConfiguration)
+        setupBackgroundViewWithConfiguration(configuration: configuration.backgroundViewConfiguration)
+        setupIndicatorContainerWithConfiguration(configuration: configuration.containerViewConfiguration)
+        setupIndicatorWithConfiguration(configuration: configuration.indicatorConfiguration)
+        setupTitleWithConfiguration(configuration: configuration.titleConfiguration)
     }
     
     private func setupBackgroundViewWithConfiguration(configuration:
@@ -77,7 +77,7 @@ public class Spinner: UIView {
         indicatorContainer.backgroundColor = configuration.backgroundColor
         
         indicatorContainer.layer.cornerRadius = configuration.cornerRadius
-        indicatorContainer.layer.shadowColor = configuration.shadowColor.CGColor
+        indicatorContainer.layer.shadowColor = configuration.shadowColor.cgColor
         indicatorContainer.layer.shadowRadius = configuration.shadowRadius
         indicatorContainer.layer.shadowOpacity = configuration.shadowOpacity
         indicatorContainer.layer.shadowOffset = configuration.shadowOffset
@@ -96,15 +96,15 @@ public class Spinner: UIView {
         titleLabel.font = configuration.font
         titleLabel.textColor = configuration.color
         titleLabel.numberOfLines = 0
-        titleLabel.textAlignment = .Center
-        titleLabel.lineBreakMode = .ByWordWrapping
+        titleLabel.textAlignment = .center
+        titleLabel.lineBreakMode = .byWordWrapping
     }
     
     // MARK: - Layout
     
-    override public class func requiresConstraintBasedLayout() -> Bool {
+    /*override public class func requiresConstraintBasedLayout() -> Bool {
         return true
-    }
+    }*/
     
     override public func updateConstraints() {
         if !constraintsSettedUp {
@@ -112,7 +112,7 @@ public class Spinner: UIView {
         }
         
         let spacing = configuration.containerViewConfiguration.spacing
-        indicatorLabelSpaceConstraint?.constant = titleLabel.text?.characters.count > 0 ? spacing : 0
+        indicatorLabelSpaceConstraint?.constant = ((titleLabel.text?.characters.count)!) > 0 ? spacing : 0
         
         super.updateConstraints()
     }
@@ -142,22 +142,22 @@ public class Spinner: UIView {
     
     private func setupContainerConstraints() {
         let width = configuration.containerViewConfiguration.preferredWidth
-        indicatorContainer.widthAnchor.constraintEqualToConstant(width).active = true
-        indicatorContainer.centerXAnchor.constraintEqualToAnchor(self.centerXAnchor).active = true
-        indicatorContainer.centerYAnchor.constraintEqualToAnchor(self.centerYAnchor).active = true
+        indicatorContainer.widthAnchor.constraint(equalToConstant: width).isActive = true
+        indicatorContainer.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        indicatorContainer.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
         // Indicator and label constraints
         let containerInsets = configuration.containerViewConfiguration.insets
         let spacing = configuration.containerViewConfiguration.spacing
         
-        indicator.indicatorView.topAnchor.constraintEqualToAnchor(indicatorContainer.topAnchor, constant:
-            containerInsets.top).active = true
-        indicatorContainer.bottomAnchor.constraintEqualToAnchor(titleLabel.bottomAnchor, constant:
-            containerInsets.bottom).active = true
+        indicator.indicatorView.topAnchor.constraint(equalTo: indicatorContainer.topAnchor, constant:
+            containerInsets.top).isActive = true
+        indicatorContainer.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant:
+            containerInsets.bottom).isActive = true
         
-        let spaceConstraint = titleLabel.topAnchor.constraintEqualToAnchor(
-            indicator.indicatorView.bottomAnchor, constant: spacing)
-        spaceConstraint.active = true
+        let spaceConstraint = titleLabel.topAnchor.constraint(
+            equalTo: indicator.indicatorView.bottomAnchor, constant: spacing)
+        spaceConstraint.isActive = true
         indicatorLabelSpaceConstraint = spaceConstraint
         
         let horizontalMetrics = ["left": containerInsets.left, "right": containerInsets.right]
@@ -165,31 +165,31 @@ public class Spinner: UIView {
         let horizontalLabelConstraintsString = "H:|-left-[label]-right-|"
         let horizontalIndicatorConstraintsString = "H:|->=left-[indicator]->=right-|"
         
-        let horizontalLabelConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
-            horizontalLabelConstraintsString, options: [], metrics: horizontalMetrics, views:
+        let horizontalLabelConstraints = NSLayoutConstraint.constraints(
+            withVisualFormat: horizontalLabelConstraintsString, options: [], metrics: horizontalMetrics, views:
             horizontalViews)
-        let horizontalIndicatorConstraints = NSLayoutConstraint.constraintsWithVisualFormat(
-            horizontalIndicatorConstraintsString, options: [], metrics: horizontalMetrics, views:
+        let horizontalIndicatorConstraints = NSLayoutConstraint.constraints(
+            withVisualFormat: horizontalIndicatorConstraintsString, options: [], metrics: horizontalMetrics, views:
             horizontalViews)
         
-        NSLayoutConstraint.activateConstraints(horizontalLabelConstraints)
-        NSLayoutConstraint.activateConstraints(horizontalIndicatorConstraints)
+        NSLayoutConstraint.activate(horizontalLabelConstraints)
+        NSLayoutConstraint.activate(horizontalIndicatorConstraints)
     }
     
     private func setupIndicatorConstraints() {
         let height = configuration.indicatorConfiguration.size.height
         let width = configuration.indicatorConfiguration.size.width
         
-        let indicatorHeight = indicator.indicatorView.heightAnchor.constraintEqualToConstant(height)
+        let indicatorHeight = indicator.indicatorView.heightAnchor.constraint(equalToConstant: height)
         indicatorHeight.priority = 900
-        indicatorHeight.active = true
+        indicatorHeight.isActive = true
         
-        let indicatorWidth = indicator.indicatorView.widthAnchor.constraintEqualToConstant(width)
+        let indicatorWidth = indicator.indicatorView.widthAnchor.constraint(equalToConstant: width)
         indicatorWidth.priority = 900
-        indicatorWidth.active = true
+        indicatorWidth.isActive = true
         
-        indicator.indicatorView.centerXAnchor.constraintEqualToAnchor(
-            indicatorContainer.centerXAnchor).active = true
+        indicator.indicatorView.centerXAnchor.constraint(
+            equalTo: indicatorContainer.centerXAnchor).isActive = true
     }
     
     // MARK: - Visibility
@@ -208,7 +208,7 @@ public class Spinner: UIView {
     
     public func showInView(view: UIView, withTitle title: String?) {
         self.titleLabel.text = title
-        showInView(view)
+        showInView(view: view)
     }
     
     public func hide(completion: (() -> Void)? = nil) {
@@ -229,14 +229,14 @@ public class Spinner: UIView {
         scaleAnimation.repeatCount = 1
         animationStartTime = scaleAnimation.beginTime
         
-        indicatorContainer.layer.addAnimation(scaleAnimation, forKey: "string")
+        indicatorContainer.layer.add(scaleAnimation, forKey: "string")
     }
     
     private func animateBackground() {
-        backgroundColor = .clearColor()
+        backgroundColor = .clear
         
-        UIView.animateWithDuration(
-            configuration.animationDuration,
+        UIView.animate(
+            withDuration: configuration.animationDuration,
             animations: {
                 self.backgroundColor = self.configuration.backgroundViewConfiguration.backgroundColor
             }
@@ -249,8 +249,8 @@ public class Spinner: UIView {
         let delay = delta > configuration.minimumVisibleTime ? 0 :
             abs(configuration.minimumVisibleTime - delta)
         
-        UIView.animateWithDuration(
-            configuration.animationDuration,
+        UIView.animate(
+            withDuration: configuration.animationDuration,
             delay: delay,
             options: [],
             animations: {
@@ -269,8 +269,8 @@ public class Spinner: UIView {
     // MARK: - Touches
     
     // Currently don't allow touches
-    override public func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+    /*override public func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         return self
-    }
+    }*/
     
 }

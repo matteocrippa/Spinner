@@ -29,13 +29,13 @@ public class CircleIndicator: UIView {
     
     @IBInspectable public var lineColor = UIColor.mainRedColor {
         didSet {
-            circleLayer.strokeColor = lineColor.CGColor
+            circleLayer.strokeColor = lineColor.cgColor
         }
     }
     
-    @IBInspectable public var innerColor = UIColor.clearColor() {
+    @IBInspectable public var innerColor = UIColor.clear {
         didSet {
-            circleLayer.fillColor = innerColor.CGColor
+            circleLayer.fillColor = innerColor.cgColor
         }
     }
     
@@ -68,10 +68,10 @@ public class CircleIndicator: UIView {
     private func configureLayers() {
         layer.addSublayer(circleLayer)
         
-        circleLayer.fillColor = innerColor.CGColor
+        circleLayer.fillColor = innerColor.cgColor
         circleLayer.lineWidth = lineWidth
         circleLayer.lineCap = lineCap
-        circleLayer.strokeColor = lineColor.CGColor
+        circleLayer.strokeColor = lineColor.cgColor
         circleLayer.strokeStart = lineStart
         circleLayer.strokeEnd = lineEnd
     }
@@ -82,7 +82,7 @@ public class CircleIndicator: UIView {
         super.layoutSubviews()
         
         circleLayer.frame = bounds
-        circleLayer.path = spinnerPathWithRect(bounds)
+        circleLayer.path = spinnerPathWithRect(rect: bounds)
     }
     
     private func spinnerPathWithRect(rect: CGRect) -> CGPath {
@@ -92,7 +92,7 @@ public class CircleIndicator: UIView {
         let side = minimumSide - lineWidth
         let spinnerRect = CGRect(x: originX, y: originY, width: side, height: side)
         
-        return UIBezierPath(ovalInRect: spinnerRect).CGPath
+        return UIBezierPath(ovalIn: spinnerRect).cgPath
     }
     
     // MARK: - Animation
@@ -105,7 +105,7 @@ public class CircleIndicator: UIView {
         rotationAnimation.duration = revolutionDuration
         rotationAnimation.repeatCount = Float.infinity
         
-        circleLayer.addAnimation(rotationAnimation, forKey: "rotation")
+        circleLayer.add(rotationAnimation, forKey: "rotation")
     }
     
     public func endAnimation() {

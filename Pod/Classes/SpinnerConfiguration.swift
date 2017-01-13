@@ -32,19 +32,19 @@ public extension SpinnerConfiguration {
     
     public struct BackgroundViewConfiguration {
         
-        public var backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        public var backgroundColor = UIColor.black.withAlphaComponent(0.3)
         
     }
     
     public struct ContainerViewConfiguration {
         
-        public var backgroundColor = UIColor.whiteColor()
+        public var backgroundColor = UIColor.white
         public var cornerRadius: CGFloat = 5
         
         public var shadowOffset = CGSize.zero
         public var shadowRadius: CGFloat = 5
         public var shadowOpacity: Float = 0.5
-        public var shadowColor = UIColor.blackColor()
+        public var shadowColor = UIColor.black
         
         public var insets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         public var spacing: CGFloat = 20
@@ -61,8 +61,8 @@ public extension SpinnerConfiguration {
     
     public struct TitleConfiguration {
         
-        public var font = UIFont.systemFontOfSize(14)
-        public var color = UIColor.blackColor()
+        public var font = UIFont.systemFont(ofSize: 14)
+        public var color = UIColor.black
         
     }
     

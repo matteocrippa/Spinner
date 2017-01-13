@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var messageTextField: UITextField!
     
-    private let spinner = Spinner()
+    fileprivate let spinner = Spinner()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,12 +24,12 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func spin(sender: AnyObject) {
+    @IBAction func spin(_ sender: AnyObject) {
         view.endEditing(true)
-        spinner.showInView(view, withTitle: messageTextField.text)
+        spinner.showInView(view: view, withTitle: messageTextField.text)
         
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
+        let delayTime = DispatchTime.now() + Double(Int64(3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
             self.spinner.hide()
         }
     }
