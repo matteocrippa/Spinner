@@ -112,7 +112,7 @@ public class Spinner: UIView {
         }
         
         let spacing = configuration.containerViewConfiguration.spacing
-        indicatorLabelSpaceConstraint?.constant = ((titleLabel.text?.characters.count)!) > 0 ? spacing : 0
+        indicatorLabelSpaceConstraint?.constant = ((titleLabel.text?.count)!) > 0 ? spacing : 0
         
         super.updateConstraints()
     }
@@ -167,10 +167,10 @@ public class Spinner: UIView {
         
         let horizontalLabelConstraints = NSLayoutConstraint.constraints(
             withVisualFormat: horizontalLabelConstraintsString, options: [], metrics: horizontalMetrics, views:
-            horizontalViews)
+            horizontalViews as [String : Any])
         let horizontalIndicatorConstraints = NSLayoutConstraint.constraints(
             withVisualFormat: horizontalIndicatorConstraintsString, options: [], metrics: horizontalMetrics, views:
-            horizontalViews)
+            horizontalViews as [String : Any])
         
         NSLayoutConstraint.activate(horizontalLabelConstraints)
         NSLayoutConstraint.activate(horizontalIndicatorConstraints)
@@ -181,11 +181,11 @@ public class Spinner: UIView {
         let width = configuration.indicatorConfiguration.size.width
         
         let indicatorHeight = indicator.indicatorView.heightAnchor.constraint(equalToConstant: height)
-        indicatorHeight.priority = 900
+        indicatorHeight.priority = UILayoutPriority(rawValue: 900)
         indicatorHeight.isActive = true
         
         let indicatorWidth = indicator.indicatorView.widthAnchor.constraint(equalToConstant: width)
-        indicatorWidth.priority = 900
+        indicatorWidth.priority = UILayoutPriority(rawValue: 900)
         indicatorWidth.isActive = true
         
         indicator.indicatorView.centerXAnchor.constraint(
@@ -225,7 +225,7 @@ public class Spinner: UIView {
         scaleAnimation.beginTime = CACurrentMediaTime()
         scaleAnimation.values = [0, 1, 1.05, 1]
         scaleAnimation.duration = configuration.animationDuration
-        scaleAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        scaleAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         scaleAnimation.repeatCount = 1
         animationStartTime = scaleAnimation.beginTime
         

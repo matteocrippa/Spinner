@@ -21,9 +21,9 @@ public class CircleIndicator: UIView {
         }
     }
     
-    @IBInspectable public var lineCap: String = kCALineCapRound {
+    @IBInspectable public var lineCap: String = convertFromCAShapeLayerLineCap(CAShapeLayerLineCap.round) {
         didSet {
-            circleLayer.lineCap = lineCap
+            circleLayer.lineCap = convertToCAShapeLayerLineCap(lineCap)
         }
     }
     
@@ -70,7 +70,7 @@ public class CircleIndicator: UIView {
         
         circleLayer.fillColor = innerColor.cgColor
         circleLayer.lineWidth = lineWidth
-        circleLayer.lineCap = lineCap
+        circleLayer.lineCap = convertToCAShapeLayerLineCap(lineCap)
         circleLayer.strokeColor = lineColor.cgColor
         circleLayer.strokeStart = lineStart
         circleLayer.strokeEnd = lineEnd
@@ -101,7 +101,7 @@ public class CircleIndicator: UIView {
         circleLayer.removeAllAnimations()
         
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        rotationAnimation.byValue = 2 * M_PI
+        rotationAnimation.byValue = 2 * Double.pi
         rotationAnimation.duration = revolutionDuration
         rotationAnimation.repeatCount = Float.infinity
         
@@ -115,3 +115,13 @@ public class CircleIndicator: UIView {
 }
 
 extension CircleIndicator: SpinnerIndicator { }
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromCAShapeLayerLineCap(_ input: CAShapeLayerLineCap) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToCAShapeLayerLineCap(_ input: String) -> CAShapeLayerLineCap {
+	return CAShapeLayerLineCap(rawValue: input)
+}
